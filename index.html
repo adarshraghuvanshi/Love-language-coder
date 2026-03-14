@@ -599,4 +599,78 @@ function spawnRibbons() {
 }
 
 /* 5 ── Orbiting hearts */
-funct
+function buildOrbit() {
+  var wrap=document.getElementById('orbit-wrap');
+  if(!wrap) return;
+  wrap.innerHTML='';
+  var items=['💖','🌸','💕','✨','💗','🌺','💝','🦋'];
+  items.forEach(function(emoji,i){
+    var h=document.createElement('div');
+    h.className='orbit-heart';
+    h.textContent=emoji;
+    var radius=95+(i%3)*30;
+    var dur=2.4+i*0.4;
+    var delay=-(i*(dur/items.length));
+    var cls='orb'+i+'x'+Date.now();
+    h.classList.add(cls);
+    var s=document.createElement('style');
+    s.textContent=
+      '.'+cls+'{animation:'+cls+' '+dur+'s linear '+delay+'s infinite;}'+
+      '@keyframes '+cls+'{'+
+        'from{transform:rotate(0deg) translateX('+radius+'px) rotate(0deg);}'+
+        'to{transform:rotate(360deg) translateX('+radius+'px) rotate(-360deg);}'+
+      '}';
+    document.head.appendChild(s);
+    wrap.appendChild(h);
+  });
+}
+
+/* 6 ── Floating love notes */
+var notes=[
+  "You're my favourite 💖",
+  "Meri jaan ho tum 🥰",
+  "I love you so much! 💕",
+  "Dil mera tumhara hai 💗",
+  "You complete me ✨",
+  "Shukriya meri life mein aane ke liye 🌸",
+  "Hamesha saath rahena 🤝💞",
+];
+function spawnLoveNotes(){
+  notes.forEach(function(txt,i){
+    setTimeout(function(){
+      var n=document.createElement('div');
+      n.className='love-note';
+      n.textContent=txt;
+      n.style.left=(8+Math.random()*60)+'vw';
+      n.style.bottom=(8+Math.random()*35)+'vh';
+      document.body.appendChild(n);
+      setTimeout(function(){n.remove();},3700);
+    },i*650);
+  });
+}
+
+/* ══ Init last No button position ══ */
+window.addEventListener('load', function(){
+  var nb=document.getElementById('no-last');
+  if(!nb) return;
+  setTimeout(function(){
+    var yes=nb.parentElement.querySelector('.yes-btn');
+    if(!yes) return;
+    var r=yes.getBoundingClientRect();
+    nb.style.left=(r.right+14)+'px';
+    nb.style.top=r.top+'px';
+  },60);
+});
+window.addEventListener('resize', function(){
+  var nb=document.getElementById('no-last');
+  if(!nb||nb.style.left==='') return;
+  var yes=nb.parentElement.querySelector('.yes-btn');
+  if(!yes) return;
+  var r=yes.getBoundingClientRect();
+  nb.style.transition='none';
+  nb.style.left=(r.right+14)+'px';
+  nb.style.top=r.top+'px';
+});
+</script>
+</body>
+</html>
